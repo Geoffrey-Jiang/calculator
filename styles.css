@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: Roboto, sans-serif;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    width: 256px;
+    height: 350px;
+    gap: 8px;
+}
+
+#display {
+    flex: 1;
+    height: 35.5px;
+    background-color: #eeeeee;
+    border: 2px solid black;
+
+}
+
+/* NUM PAD*/
+#numpad {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.numbers {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    flex: 1;
+    padding: 8px;
+    font: Roboto, sans-serif;
+}
+
+#dot {
+    flex: 2.737;
+}
+
+button:hover {
+    border: 2px solid gold;
+    background-color: beige;
+
+}

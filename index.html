@@ -9,43 +9,39 @@
 </head>
 <body>
     <div id="calculator">
-        <div id="display"></div>
-        <div id="buttons">
-            <div id="operations">
-                <div id="clear">A/C</div>
-                <div id="pos/neg">+/-</div>
-                <div id="mod">%</div>
-                <div class="operation divide">/</div>
+        <div id="display">
+            <p id="result"></p>
+            <p id="expression"></p>
+        </div>
+        <div id="numpad">
+            <div class="numbers">
+                <button id="clear">A/C</button>
+                <button id="pos/neg">+/-</button>
+                <button id="mod">%</button>
+                <button class="operation buttonide">/</button>
             </div>
-            <div id="functions">
-                <div id="numpad">
-                    <div class="numbers">
-                        <div class="num" id="7">7</div>
-                        <div class="num" id="8">8</div>
-                        <div class="num" id="9">9</div>
-                    </div>
-                    <div class="numbers">
-                        <div class="num" id="4">4</div>
-                        <div class="num" id="5">5</div>
-                        <div class="num" id="6">6</div>
-                    </div>
-                    <div class="numbers">
-                        <div class="num" id="1">1</div>
-                        <div class="num" id="2">2</div>
-                        <div class="num" id="3">3</div>
-                    </div>
-                    <div class="numbers">
-                        <div class="num" id="0">0</div>
-                        <div class="num" id=".">.</div>
-                    </div>
-                </div>
-                <div id="sidebar">
-                    <div class="operation add">+</div>
-                    <div class="operation subtract">-</div>
-                    <div class="operation multiply">x</div>
-                    <div id="enter">=</div>
-                </div>
-                
+            <div class="numbers">
+                <button class="num" id="7">7</button>
+                <button class="num" id="8">8</button>
+                <button class="num" id="9">9</button>
+                <button class="num operation add">+</button>
+            </div>
+            <div class="numbers">
+                <button class="num" id="4">4</button>
+                <button class="num" id="5">5</button>
+                <button class="num" id="6">6</button>
+                <button class="num operation subtract">-</button>
+            </div>
+            <div class="numbers">
+                <button class="num" id="1">1</button>
+                <button class="num" id="2">2</button>
+                <button class="num" id="3">3</button>
+                <button class="num operation multiply">x</button>
+            </div>
+            <div class="numbers">
+                <button class="num" id="0">0</button>
+                <button class="num" id="dot">.</button>
+                <button class="num" id="enter">=</button>
             </div>
         </div>
     </div>
