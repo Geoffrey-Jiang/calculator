@@ -1,36 +1,68 @@
+// FLAGS
 
 // Flags to stop two operators being entered and others
 let hasOperator = 0;
 let duringOperator = 0;
-let numberPresent = 0;
-
 // Note if hasOperator == 1 and duringOperator == 0 means expression correctly entered
 
+let numberPresent = 0;
+let includesDot = 0;
 // Flags for what is being displayed currently
 let errorDisplayed = 0;
 let resultDisplayed = 0;
-
-// Hold index to add positive/negative symbol
+// Hold index to and positive/negative symbol
 let operatorIndex = 0;
 let isPositive = 1;
 
+// Getting DOM elements for Expression and Result
 let displayExpression = document.querySelector("#expression");
 let displayResult = document.querySelector("#result");
 
-// Linking buttons to display
+// Allowing for keyboard functionality
+document.addEventListener("keypress", (e) => {
+    let buttons = Array.from(document.querySelectorAll('button'));
+    let letter = e.key;
+    if (e.key == "Escape") {
+        // This one doesn't quite work...
+        e.preventDefault();
+        letter = "A/C";
+    } else if (e.key == "Enter") {
+        e.preventDefault();
+        letter = "=";
+    } else if (e.key == "*") {
+        letter = "x";
+    }
+    buttons.forEach((button) => {
+        if (button.textContent === letter) button.click();
+    });
+})
 
+// Linking buttons to display
 // Numbers
 const numButtons = document.querySelectorAll(".num");
 numButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-        if (resultDisplayed == 1) {
-            clearCalculator();
+        if (e.target.textContent === '.') {
+            if (errorDisplayed === 0 && includesDot === 0) {
+                if (resultDisplayed === 1) {
+                    clearCalculator();
+                }
+                displayExpression.textContent += e.target.textContent;
+                duringOperator = 0;
+                numberPresent = 1;
+                includesDot = 1;
+            }
+        } else {
+            if (resultDisplayed === 1) {
+                clearCalculator();
+            }
+            if (errorDisplayed === 0) {
+                displayExpression.textContent += e.target.textContent;
+                duringOperator = 0;
+                numberPresent = 1;
+            }
         }
-        if (errorDisplayed == 0) {
-            displayExpression.textContent += e.target.textContent;
-            duringOperator = 0;
-            numberPresent = 1;
-        }
+        
     });
 })
 
@@ -38,7 +70,7 @@ numButtons.forEach((button) => {
 const operationButtons = document.querySelectorAll(".operation");
 operationButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-        if (duringOperator == 1) {
+        if (duringOperator == 1 && errorDisplayed == 0) {
             // For changing the operator and not adding an operator
             let display = displayExpression.textContent.toString();
             display = display.slice(0, display.length - 3);
@@ -46,6 +78,8 @@ operationButtons.forEach((button) => {
             hasOperator = 0;
         }
         if (hasOperator == 0 && numberPresent == 1 && errorDisplayed == 0) {
+            // For adding an operator
+
             displayExpression.textContent += ` ${e.target.textContent} `
 
             // Change flags
@@ -59,7 +93,26 @@ operationButtons.forEach((button) => {
             // i.e. hasOperator = 1
             isPositive = 1;
             operatorIndex = displayExpression.textContent.length;
-        } 
+            includesDot = 0;
+        } else if (hasOperator == 1 && duringOperator == 0 && errorDisplayed == 0) {
+            // If an expression has been written out, we must compute it then add operator
+            computeDisplayedExpression();
+            if (errorDisplayed == 0) {
+                displayExpression.textContent += ` ${e.target.textContent} `
+
+                // Change flags
+                hasOperator = 1;
+                duringOperator = 1;
+    
+                // Reset flag
+                resultDisplayed = 0;
+                
+                // Reset positive checker as we are now considering the second number
+                // i.e. hasOperator = 1
+                isPositive = 1;
+                operatorIndex = displayExpression.textContent.length;
+            }
+        }
     })
 })
 
@@ -95,6 +148,7 @@ function computeDisplayedExpression () {
 
         // Set flag for result displayed
         resultDisplayed = 1;
+        includesDot = 0;
     }
 }
 
@@ -111,6 +165,7 @@ function clearCalculator () {
     numberPresent = 0;
     isPositive = 1;
     operatorIndex = 0;
+    includesDot = 0;
 
     // Reset displays
     displayExpression.textContent = "";

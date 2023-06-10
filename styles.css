@@ -87,3 +87,8 @@ button:hover {
     background-color: beige;
 
 }
+
+.mimic_hover {
+    border: 2px solid gold;
+    background-color: beige;
+}
