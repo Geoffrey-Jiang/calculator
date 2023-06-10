@@ -22,7 +22,8 @@ let displayResult = document.querySelector("#result");
 document.addEventListener("keypress", (e) => {
     let buttons = Array.from(document.querySelectorAll('button'));
     let letter = e.key;
-    if (e.key == "Escape") {
+    console.log(e.key);
+    if (e.key == "Escape" || e.key == "Delete") {
         // This one doesn't quite work...
         e.preventDefault();
         letter = "A/C";
