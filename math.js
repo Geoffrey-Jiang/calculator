@@ -2,13 +2,14 @@
 // Flags to stop two operators being entered
 let hasOperator = 0;
 let duringOperator = 0;
-let operatorIndex = 0;
+let numberPresent = 0;
 // Note if hasOperator == 1 and duringOperator == 0 means expression correctly entered
+let errorDisplayed = 0;
 let resultDisplayed = 0;
+let operatorIndex = 0;
 
 let displayExpression = document.querySelector("#expression");
 let displayResult = document.querySelector("#result");
-
 
 // Linking buttons to display
 
@@ -16,8 +17,14 @@ let displayResult = document.querySelector("#result");
 const numButtons = document.querySelectorAll(".num");
 numButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-        displayExpression.textContent += e.target.textContent;
-        duringOperator = 0;
+        if (resultDisplayed == 1) {
+            clearCalculator();
+        }
+        if (errorDisplayed == 0) {
+            displayExpression.textContent += e.target.textContent;
+            duringOperator = 0;
+            numberPresent = 1;
+        }
     });
 })
 
@@ -31,10 +38,11 @@ operationButtons.forEach((button) => {
             displayExpression.textContent = display;
             hasOperator = 0;
         }
-        if (hasOperator == 0) {
+        if (hasOperator == 0 && numberPresent == 1 && errorDisplayed == 0) {
             displayExpression.textContent += ` ${e.target.textContent} `
             hasOperator = 1;
             duringOperator = 1;
+            resultDisplayed = 0;
             operatorIndex = displayExpression.textContent.length;
         } 
     })
@@ -44,20 +52,25 @@ operationButtons.forEach((button) => {
 
 // Entering an expression
 const equals = document.querySelector("#enter");
-equals.addEventListener("click", convertDisplayToExpression);
+equals.addEventListener("click", computeDisplayedExpression);
 
-function convertDisplayToExpression () {
+function computeDisplayedExpression () {
     if (duringOperator == 0 && hasOperator == 1) {
         let expression = displayExpression.textContent.toString().split(" ");
         let result = operation(Number(expression[0]), expression[1], Number(expression[2]));
         if(typeof result === "number") {
+            if (Number.isInteger(result) == false) {
+                result = result.toFixed(2);
+            }
             displayExpression.textContent = result;
         } else {
             displayResult.textContent = result;
+            errorDisplayed = 1;
         }
         hasOperator = 0;
         duringOperator = 0;
         resultDisplayed = 1;
+        operatorIndex = 0;
     }
 }
 
@@ -66,11 +79,18 @@ const clear = document.querySelector("#clear");
 clear.addEventListener("click", clearCalculator);
 
 function clearCalculator () {
+    hasOperator = 0;
+    duringOperator = 0;
+    errorDisplayed = 0;
+    resultDisplayed = 0;
+    numberPresent = 0;
+    operatorIndex = 0;
 
+    displayExpression.textContent = "";
+    displayResult.textContent = "";
 }
 
-// Split the string into an array and search
-// for operations in BODMAS manner and group them?
+// Mathematics Functions
 
 // Execute operation
 function operation (num1, operator, num2) {
