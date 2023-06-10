@@ -5,44 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script defer src="math.js"></script>
     <title>Document</title>
 </head>
 <body>
     <div class="header">Calculator</div>
     <div id="calculator">
         <div id="display">
-            <p id="expression">test</p>
-            <p id="result">test</p>
+            <p id="expression"></p>
+            <p id="result"></p>
         </div>
         <div id="numpad">
             <div class="numbers">
                 <button id="clear">A/C</button>
                 <button id="pos/neg">+/-</button>
-                <button id="mod">%</button>
-                <button class="operation buttonide">/</button>
+                <button class = "operation" id="mod">%</button>
+                <button class="operation button" id="divide">/</button>
             </div>
             <div class="numbers">
                 <button class="num" id="7">7</button>
                 <button class="num" id="8">8</button>
                 <button class="num" id="9">9</button>
-                <button class="num operation add">+</button>
+                <button class="operation add">+</button>
             </div>
             <div class="numbers">
                 <button class="num" id="4">4</button>
                 <button class="num" id="5">5</button>
                 <button class="num" id="6">6</button>
-                <button class="num operation subtract">-</button>
+                <button class="operation subtract">-</button>
             </div>
             <div class="numbers">
                 <button class="num" id="1">1</button>
                 <button class="num" id="2">2</button>
                 <button class="num" id="3">3</button>
-                <button class="num operation multiply">x</button>
+                <button class="operation multiply">x</button>
             </div>
             <div class="numbers">
                 <button class="num" id="0">0</button>
                 <button class="num" id="dot">.</button>
-                <button class="num" id="enter">=</button>
+                <button id="enter">=</button>
             </div>
         </div>
     </div>
