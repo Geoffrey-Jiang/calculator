@@ -1,12 +1,18 @@
 
-// Flags to stop two operators being entered
+// Flags to stop two operators being entered and others
 let hasOperator = 0;
 let duringOperator = 0;
 let numberPresent = 0;
+
 // Note if hasOperator == 1 and duringOperator == 0 means expression correctly entered
+
+// Flags for what is being displayed currently
 let errorDisplayed = 0;
 let resultDisplayed = 0;
+
+// Hold index to add positive/negative symbol
 let operatorIndex = 0;
+let isPositive = 1;
 
 let displayExpression = document.querySelector("#expression");
 let displayResult = document.querySelector("#result");
@@ -33,6 +39,7 @@ const operationButtons = document.querySelectorAll(".operation");
 operationButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
         if (duringOperator == 1) {
+            // For changing the operator and not adding an operator
             let display = displayExpression.textContent.toString();
             display = display.slice(0, display.length - 3);
             displayExpression.textContent = display;
@@ -40,9 +47,17 @@ operationButtons.forEach((button) => {
         }
         if (hasOperator == 0 && numberPresent == 1 && errorDisplayed == 0) {
             displayExpression.textContent += ` ${e.target.textContent} `
+
+            // Change flags
             hasOperator = 1;
             duringOperator = 1;
+
+            // Reset flag
             resultDisplayed = 0;
+            
+            // Reset positive checker as we are now considering the second number
+            // i.e. hasOperator = 1
+            isPositive = 1;
             operatorIndex = displayExpression.textContent.length;
         } 
     })
@@ -62,15 +77,24 @@ function computeDisplayedExpression () {
             if (Number.isInteger(result) == false) {
                 result = result.toFixed(2);
             }
+            if (result < 0) {
+                isPositive = 0;
+            } else {
+                isPositive = 1;
+            }
             displayExpression.textContent = result;
         } else {
             displayResult.textContent = result;
+            // Set flag for error - i.e. dividing by 0
             errorDisplayed = 1;
         }
+        // Reset flags as expression is shown
         hasOperator = 0;
         duringOperator = 0;
-        resultDisplayed = 1;
         operatorIndex = 0;
+
+        // Set flag for result displayed
+        resultDisplayed = 1;
     }
 }
 
@@ -79,15 +103,44 @@ const clear = document.querySelector("#clear");
 clear.addEventListener("click", clearCalculator);
 
 function clearCalculator () {
+    // Reset all flags
     hasOperator = 0;
     duringOperator = 0;
     errorDisplayed = 0;
     resultDisplayed = 0;
     numberPresent = 0;
+    isPositive = 1;
     operatorIndex = 0;
 
+    // Reset displays
     displayExpression.textContent = "";
     displayResult.textContent = "";
+}
+
+// Positive/negative
+const posneg = document.querySelector('#posneg');
+posneg.addEventListener("click", applyPositiveNegative);
+
+function applyPositiveNegative () {
+    if (isPositive == 1) {
+        if (hasOperator == 1) {
+            displayExpression.textContent = displayExpression.textContent.slice(0, operatorIndex) 
+                                            + '-' 
+                                            + displayExpression.textContent.slice(operatorIndex);
+        } else if (hasOperator == 0) {
+            displayExpression.textContent = '-' + displayExpression.textContent;
+        }
+        isPositive = 0;
+    } else {
+        if (hasOperator == 1) {
+            displayExpression.textContent = displayExpression.textContent.slice(0, operatorIndex)  
+                                            + displayExpression.textContent.slice(operatorIndex + 1);
+        } else if (hasOperator == 0) {
+            displayExpression.textContent = displayExpression.textContent.slice(1);
+        }
+        isPositive = 1;
+    }
+    
 }
 
 // Mathematics Functions
